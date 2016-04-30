@@ -98,7 +98,6 @@ end
 # Objective of the game is to make the "M" find the path to "*", with the rules:
 # It should move through the matrix
 # It can only move through "." characters
-# "X" are trees, so it has to ignore it
 # The lucky guesses count should match the expected guesses (best moves over an intersection)
 
 # inputs
