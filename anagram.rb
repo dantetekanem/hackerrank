@@ -1,4 +1,4 @@
-def anagram(string)
+def is_almost_palindrome(string)
 	return -1 if string.length.odd?
 	changes = 0
 	half = string.length / 2
@@ -9,8 +9,8 @@ def anagram(string)
 		right.include?(char) ? right.delete_at(right.index(char)) : changes += 1
 	end
 
-	changes
+	changes <= 1 ? true : false
 end
 
-strings = ["aaabbb", "ab", "abc", "mnop", "xyyx", "xaxbbbxx"]
-strings.each { |string| puts anagram(string) }
+strings = ["abccba", "abccbx", "abccfg"]
+strings.each { |string| puts is_almost_palindrome(string) }
