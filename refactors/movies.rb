@@ -39,7 +39,7 @@ class NewReleaseMovie < Movie
   end
 end
 
-class RestrictedMovies < Movie
+class RestrictedMovie < Movie
   def amount_in_days_of_rent(days_rented)
     amount = 5
     amount *= 2 if days_rented > 2

@@ -16,6 +16,7 @@ customer = Customer.new("Leonardo")
 customer.add_rental(rental_one)
 customer.add_rental(rental_two)
 customer.add_rental(rental_three)
+customer.add_rental(rental_four)
 
 # Test
 easy = EasyTests.new
