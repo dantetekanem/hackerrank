@@ -39,6 +39,18 @@ class NewReleaseMovie < Movie
   end
 end
 
+class RestrictedMovies < Movie
+  def amount_in_days_of_rent(days_rented)
+    amount = 5
+    amount *= 2 if days_rented > 2
+    amount
+  end
+
+  def frequent_renter_points(days_rented)
+    days_rented
+  end
+end
+
 class Rental
   attr_reader :movie, :days_rented
 
