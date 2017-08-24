@@ -1,105 +1,105 @@
 class Movie
-  attr_reader :title
+  attr_reader :title, :days_rented
 
-  def initialize(title)
+  def initialize(title, days_rented)
     @title = title
+    @days_rented = days_rented
   end
 
-  def amount_in_days_of_rent(days_rented=0)
+  def amount
+    0
   end
 
-  def frequent_renter_points(days_rented)
+  def frequent_renter_points
     1
+  end
+
+  def statement
+    "\t#{title}\t#{amount}\n"
   end
 end
 
 class ChildrenMovie < Movie
-  def amount_in_days_of_rent(days_rented)
-    amount = 1.5
-    amount += (days_rented - 3) * 1.5 if days_rented > 3
-    amount
+  def amount
+    1.5 + days_rented_amount
+  end
+
+  def days_rented_amount
+    days_rented > 3 ? (days_rented - 3) * 1.5 : 0
   end
 end
 
 class RegularMovie < Movie
-  def amount_in_days_of_rent(days_rented)
-    amount = 2
-    amount += (days_rented - 2) * 1.5 if days_rented > 2
-    amount
+  def amount
+    2 + days_rented_amount
+  end
+
+  def days_rented_amount
+    days_rented > 2 ? (days_rented - 2) * 1.5 : 0
   end
 end
 
 class NewReleaseMovie < Movie
-  def amount_in_days_of_rent(days_rented)
+  def amount
     days_rented * 3
   end
 
-  def frequent_renter_points(days_rented)
+  def frequent_renter_points
     days_rented > 1 ? 2 : 1
   end
 end
 
 class RestrictedMovie < Movie
-  def amount_in_days_of_rent(days_rented)
-    amount = 5
-    amount *= 2 if days_rented > 2
-    amount
+  def amount
+    5 * days_rented_amount
   end
 
-  def frequent_renter_points(days_rented)
+  def days_rented_amount
+    days_rented > 2 ? 2 : 1
+  end
+
+  def frequent_renter_points
     days_rented
   end
 end
 
-class Rental
-  attr_reader :movie, :days_rented
-
-  def initialize(movie, days_rented)
-    @movie = movie
-    @days_rented = days_rented
-  end
-
-  def amount
-    movie.amount_in_days_of_rent(days_rented)
-  end
-
-  def frequent_renter_points
-    movie.frequent_renter_points(days_rented)
-  end
-
-  def statement
-    "\t#{movie.title}\t#{amount}\n"
-  end
-end
-
 class Customer
-  attr_reader :name
+  attr_reader :name, :movies
 
   def initialize(name)
     @name = name
-    @rentals = []
-    @result = ""
+    @movies = []
   end
 
-  def add_rental(rental)
-    @rentals << rental
+  def add_movie(movie)
+    movies << movie
   end
 
   def total_amount
-    @rentals.map(&:amount).inject(:+)
+    movies.reduce(0) { |prev, movie| prev + movie.amount }
   end
 
-  def frequent_renter_points
-    @rentals.map(&:frequent_renter_points).inject(:+)
+  def total_frequent_renter_points
+    movies.reduce(0) { |prev, movie| prev + movie.frequent_renter_points }
   end
 
   def statement
-    @result = "Rental Record for #{@name}\n"
-    @rentals.each { |rental| @result += rental.statement }
+    statement_title + movies_statements + statement_amount_owned + statement_earned_points
+  end
 
-    # add footer lines
-    @result += "Amount owed is #{total_amount.to_s}\n"
-    @result += "You earned #{frequent_renter_points.to_s} frequent renter points"
-    @result
+  def statement_title
+    "Movies Record for #{name}\n"
+  end
+
+  def statement_amount_owned
+    "Amount owed is #{total_amount}\n"
+  end
+
+  def statement_earned_points
+    "You earned #{total_frequent_renter_points} frequent renter points"
+  end
+
+  def movies_statements
+    movies.map(&:statement).join
   end
 end
