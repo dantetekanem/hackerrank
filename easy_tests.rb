@@ -46,8 +46,9 @@ class EasyTests
     if failed.length > 0
       puts ""
       failed.each do |test|
-        puts "expected #{test.expected} but got #{test.action}"
+        puts "expected '#{test.expected}' but got '#{test.action}'"
       end
     end
+    puts "---"
   end
 end
