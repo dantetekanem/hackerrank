@@ -10,7 +10,7 @@ class SudokuValidator
   end
 
   def valid?
-    valid_cols? && valid_rows? && valid_blocks?
+    valid_rows? && valid_cols? && valid_blocks?
   end
 
   def valid_rows?
